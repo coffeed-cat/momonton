@@ -1,6 +1,8 @@
 const form = document.querySelector(".js-form"),
   input = form.querySelector("input");
 
+const greetingBox = document.querySelector(".js-greetingBox");
+
 const toDoFormSwitch = document.querySelector(".js-wholeToDo");
 
 const toDoFormer = document.querySelector(".js-toDoForm");
@@ -14,30 +16,28 @@ const changeBtn=document.querySelector(".js-change");
 const USER_LS = "currentUser",
   SHOWING_CN = "showing";
 
-function scaleOutAnimation(){
-  sayHi.classList.add("scale-out-bottom");
-  form.classList.add("scale-out-bottom");
-}
-
 function handleSubmitModify(event){
     event.preventDefault();
-    scaleOutAnimation();
     sayHi.addEventListener("animationend",function(){
-      sayHi.classList.remove("scale-out-bottom");
+      sayHi.classList.remove("blur-out-contract");
       form.classList.add("cannotusetodo");
       input.style.display="none";
       sayHi.classList.add("swing-in-bottom-bck-sayHi");
+      btnGen();//bbbbbbbbbbbbbbbb
     });
     const currentValue = input.value;
     paintGreeting(currentValue);
     saveName(currentValue);
-    btnGen();//bbbbbbbbbbbbbbbb
 }
 
 function modifyName(){
     input.classList.remove("cannotusetodo");
     input.addEventListener("keydown",handleKeydown);
     form.addEventListener("submit",handleSubmitModify);
+}
+
+function loading(){
+  sayHi.classList.add("swing-in-bottom-bck-sayHi");
 }
 
 function start(){
@@ -67,7 +67,6 @@ function handleBtnclick(event){
   localStorage.removeItem("currentUser");
   changeBtn.classList.remove(SHOWING_CN);
   form.classList.remove("blur-out-contract");
-  form.classList.remove("scale-out-bottom");
   form.classList.remove("cannotusetodo");
   input.style.display="flex";
   input.value = "";
@@ -92,11 +91,11 @@ function handleSubmitGreeting(event){
       sayHi.classList.remove("blur-out-contract");
       form.classList.add("cannotusetodo");
       sayHi.classList.add("swing-in-bottom-bck-sayHi");
+      btnGen();
     });
     const currentValue = input.value;
     paintGreeting(currentValue);
     saveName(currentValue);
-    btnGen();//bbbbbbbbbbbbbbbb
 }
 
 function askForName(){
@@ -120,6 +119,7 @@ function loadName(){
     zikoSyoukai();
     askForName();
   }else{
+    loading();
     paintGreeting(currentUser);
     btnGen();//bbbbbbbbbbbbbbbbbbbb
   }
